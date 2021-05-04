@@ -11,6 +11,9 @@
 # production
 /build
 
+#open weather api key
+.env
+
 # misc
 .DS_Store
 .env.local
