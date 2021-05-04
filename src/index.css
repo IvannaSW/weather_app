@@ -5,6 +5,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(to right, #051d37, #002f6d, #383ba1, #7d3acd, #cc12eb)!important;
+}
+
+.wrapper {  
+  height: 80vh; 
+  background: #e5e5ff;
+  margin-top: 50px;
+  border-radius: 30px;
 }
 
 code {

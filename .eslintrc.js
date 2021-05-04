@@ -25,8 +25,9 @@ module.exports = {
         'plugin:prettier/recommended'
     ],
     rules: {
-        'prettier/prettier': ['error', {}, { usePrettierrc: true }],
+        'prettier/prettier': ['error', { endOfLine: 'auto' }, { usePrettierrc: true }],
         'react/jsx-uses-react': 'off',
-        'react/react-in-jsx-scope': 'off'
+        'react/react-in-jsx-scope': 'off',
+        'no-unused-vars': 'off'
     }
 };
