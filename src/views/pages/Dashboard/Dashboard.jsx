@@ -1,6 +1,7 @@
 import React from 'react';
 import SearchByCityForm from '../../components/SearchByCityForm/SearchByCityForm';
 import WeatherContainer from '../../components/WeatherContainer/WeatherContainer';
+import CurrentLocationBtn from '../../components/CurrentLocationBtn/CurrentLocationBtn';
 import Grid from '@material-ui/core/Grid';
 
 const DashBoard = () => {
@@ -8,6 +9,7 @@ const DashBoard = () => {
         <Grid container spacing={3}>
             <Grid item xs={12}>
                 <SearchByCityForm />
+                <CurrentLocationBtn />
             </Grid>
             <Grid item xs={12}>
                 <WeatherContainer />

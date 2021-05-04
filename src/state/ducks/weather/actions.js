@@ -28,3 +28,14 @@ export const requestCurrentWeather = (city) => {
             .catch((error) => dispatch(fetchCurrentWeatherFailed(error)));
     };
 };
+
+export const getCurrentWeatherByLocation = () => {
+    return (dispatch) => {
+        navigator.geolocation.getCurrentPosition((pos) => {
+            const lon = pos.coords.longitude.toFixed(5);
+            const lat = pos.coords.latitude.toFixed(5);
+            dispatch(setLocation({ lon, lat }));
+            dispatch(requestCurrentWeather({ lon, lat }));
+        });
+    };
+};

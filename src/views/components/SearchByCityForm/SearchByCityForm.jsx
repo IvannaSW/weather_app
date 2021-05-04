@@ -24,12 +24,14 @@ const SearchByCityForm = ({ setLocation, requestCurrentWeather }) => {
     };
 
     return (
-        <form className="formContainer" onSubmit={handleSubmit}>
-            <TextField placeholder="Enter the city here" value={city} onChange={handleChange} />
-            <Button variant="contained" color="primary" type="submit">
-                GO
-            </Button>
-        </form>
+        <>
+            <form className="formContainer" onSubmit={handleSubmit}>
+                <TextField placeholder="Enter the city here" value={city} onChange={handleChange} />
+                <Button variant="contained" color="primary" type="submit">
+                    GO
+                </Button>
+            </form>
+        </>
     );
 };
 
