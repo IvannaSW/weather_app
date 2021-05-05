@@ -2,6 +2,7 @@ import * as types from './types';
 
 const INITIAL_STATE = {
     weather: null,
+    forecast: null,
     isFetching: false,
     location: null,
     tempUnit: 'C',
@@ -11,6 +12,7 @@ const INITIAL_STATE = {
 const weatherReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case types.FETCH_CURRENT_WEATHER_START:
+        case types.FETCH_FORECAST_START:
             return {
                 ...state,
                 isFetching: true
@@ -22,10 +24,17 @@ const weatherReducer = (state = INITIAL_STATE, action) => {
                 weather: action.payload
             };
         case types.FETCH_CURRENT_WEATHER_FAILED:
+        case types.FETCH_FORECAST_FAILED:
             return {
                 ...state,
                 isFetching: false,
                 errorMessage: action.payload
+            };
+        case types.FETCH_FORECAST_SUCCESS:
+            return {
+                ...state,
+                isFetching: false,
+                forecast: action.payload
             };
         case types.SET_LOCATION:
             return {

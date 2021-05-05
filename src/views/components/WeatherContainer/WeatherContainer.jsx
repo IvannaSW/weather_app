@@ -5,6 +5,7 @@ import { Grid, CircularProgress } from '@material-ui/core';
 import { connect } from 'react-redux';
 import TemperatureUnitsSwitch from '../TemperatureSwitch/TemperatureUnitsSwitch';
 import { changeDegreeType } from '../../../state/ducks/weather/actions';
+import DailyForecast from '../DailyForecast/DailyForecast';
 
 /*
 TODO:
@@ -12,7 +13,7 @@ TODO:
 - refactoring files structure for children components and css styles
 */
 
-const WeatherContainer = ({ loading, weatherData, tempUnit, changeDegreeType }) => {
+const WeatherContainer = ({ loading, weatherData, tempUnit, changeDegreeType, forecastData }) => {
     return (
         <Grid container spacing={3}>
             <Grid item xs={5}>
@@ -23,7 +24,11 @@ const WeatherContainer = ({ loading, weatherData, tempUnit, changeDegreeType }) 
                 ) : null}
             </Grid>
             <Grid item xs={7}>
-                <div>Forecast</div>
+                {loading ? (
+                    <CircularProgress />
+                ) : forecastData ? (
+                    <DailyForecast forecastData={forecastData} tempUnit={tempUnit} />
+                ) : null}
             </Grid>
             {weatherData ? (
                 <Grid item xs={12}>
@@ -38,7 +43,8 @@ const mapStateToProps = (state) => {
     return {
         loading: state.weather.isFetching,
         weatherData: state.weather.weather,
-        tempUnit: state.weather.tempUnit
+        tempUnit: state.weather.tempUnit,
+        forecastData: state.weather.forecast
     };
 };
 
@@ -52,7 +58,8 @@ WeatherContainer.propTypes = {
     loading: PropTypes.bool.isRequired,
     changeDegreeType: PropTypes.func.isRequired,
     tempUnit: PropTypes.string,
-    weatherData: PropTypes.object
+    weatherData: PropTypes.object,
+    forecastData: PropTypes.array
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WeatherContainer);

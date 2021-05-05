@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { Button, TextField } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { setLocation, requestCurrentWeather } from '../../../state/ducks/weather/actions';
+import {
+    setLocation,
+    requestCurrentWeather,
+    requestDailyForecast
+} from '../../../state/ducks/weather/actions';
 import PropTypes from 'prop-types';
 import './SearchByCityForm.css';
 
@@ -11,7 +15,7 @@ import './SearchByCityForm.css';
 - autocomplete for search
 */
 
-const SearchByCityForm = ({ setLocation, requestCurrentWeather }) => {
+const SearchByCityForm = ({ setLocation, requestCurrentWeather, requestDailyForecast }) => {
     const [city, setCity] = useState('');
 
     const handleChange = (e) => setCity(e.target.value);
@@ -20,6 +24,7 @@ const SearchByCityForm = ({ setLocation, requestCurrentWeather }) => {
         e.preventDefault();
         setLocation(city);
         requestCurrentWeather(city);
+        requestDailyForecast(city);
         setCity('');
     };
 
@@ -38,12 +43,14 @@ const SearchByCityForm = ({ setLocation, requestCurrentWeather }) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         requestCurrentWeather: (city) => dispatch(requestCurrentWeather(city)),
+        requestDailyForecast: (city) => dispatch(requestDailyForecast(city)),
         setLocation: (city) => dispatch(setLocation(city))
     };
 };
 
 SearchByCityForm.propTypes = {
     requestCurrentWeather: PropTypes.func.isRequired,
+    requestDailyForecast: PropTypes.func.isRequired,
     setLocation: PropTypes.func.isRequired
 };
 

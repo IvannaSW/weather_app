@@ -1,5 +1,6 @@
 import * as types from './types';
-import { fetchCurrentWeather } from '../../../utilities/api';
+import { fetchCurrentWeather, fetchExtendedForecast } from '../../../utilities/api';
+import moment from 'moment';
 
 export const fetchCurrentWeatherStart = () => ({
     type: types.FETCH_CURRENT_WEATHER_START
@@ -12,6 +13,20 @@ export const fetchCurrentWeatherSuccess = (weatherData) => ({
 
 export const fetchCurrentWeatherFailed = (error) => ({
     type: types.FETCH_CURRENT_WEATHER_FAILED,
+    payload: error
+});
+
+export const fetchForecastStart = () => ({
+    type: types.FETCH_FORECAST_START
+});
+
+export const fetchForecastSuccess = (forecastData) => ({
+    type: types.FETCH_FORECAST_SUCCESS,
+    payload: forecastData.filter((x) => moment.unix(x.dt).utc().format('HH') === '12').slice(1)
+});
+
+export const fetchForecastFailed = (error) => ({
+    type: types.FETCH_FORECAST_FAILED,
     payload: error
 });
 
@@ -33,6 +48,15 @@ export const requestCurrentWeather = (city) => {
     };
 };
 
+export const requestDailyForecast = (city) => {
+    return (dispatch) => {
+        dispatch(fetchForecastStart());
+        fetchExtendedForecast(city)
+            .then((result) => dispatch(fetchForecastSuccess(result.data.list)))
+            .catch((error) => dispatch(fetchForecastFailed(error)));
+    };
+};
+
 export const getCurrentWeatherByLocation = () => {
     return (dispatch) => {
         navigator.geolocation.getCurrentPosition((pos) => {
@@ -40,6 +64,7 @@ export const getCurrentWeatherByLocation = () => {
             const lat = pos.coords.latitude.toFixed(5);
             dispatch(setLocation({ lon, lat }));
             dispatch(requestCurrentWeather({ lon, lat }));
+            dispatch(requestDailyForecast({ lon, lat }));
         });
     };
 };
