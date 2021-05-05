@@ -20,6 +20,10 @@ export const setLocation = (city) => ({
     payload: city
 });
 
+export const changeDegreeType = () => ({
+    type: types.CHANGE_TEMP_UNIT
+});
+
 export const requestCurrentWeather = (city) => {
     return (dispatch) => {
         dispatch(fetchCurrentWeatherStart());

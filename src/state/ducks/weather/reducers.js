@@ -4,6 +4,7 @@ const INITIAL_STATE = {
     weather: null,
     isFetching: false,
     location: null,
+    tempUnit: 'C',
     errorMessage: undefined
 };
 
@@ -30,6 +31,11 @@ const weatherReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 location: action.payload
+            };
+        case types.CHANGE_TEMP_UNIT:
+            return {
+                ...state,
+                tempUnit: state.tempUnit === 'C' ? 'F' : 'C'
             };
 
         default:

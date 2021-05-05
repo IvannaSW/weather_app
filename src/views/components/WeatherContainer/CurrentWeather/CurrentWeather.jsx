@@ -4,13 +4,14 @@ import moment from 'moment';
 import { Card, Typography } from '@material-ui/core';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import Temperature from '../../Temperature/Temperature';
 
 /* TODO:
 - improve how UI looks;
 - use custom weather icons, not from OpenWeather
 */
 
-const CurrentWeather = ({ weatherData }) => {
+const CurrentWeather = ({ weatherData, tempUnit }) => {
     const { temp, temp_min, temp_max, pressure, humidity } = weatherData.main;
     const weatherIconUrl = `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
     return (
@@ -23,13 +24,14 @@ const CurrentWeather = ({ weatherData }) => {
             </Typography>
             <img src={weatherIconUrl} alt="weather icon"></img>
             <Typography color="primary" align="center">
-                {temp} &deg;
+                <Temperature value={temp} tempUnit={tempUnit} />
             </Typography>
             <Typography color="primary" align="center">
                 {weatherData.weather[0].description}
             </Typography>
             <Typography color="primary" align="center" display="block" variant="caption">
-                <ArrowUpwardIcon /> {temp_max} &deg; <ArrowDownwardIcon /> {temp_min} &deg;
+                <ArrowUpwardIcon /> <Temperature value={temp_max} tempUnit={tempUnit} />{' '}
+                <ArrowDownwardIcon /> <Temperature value={temp_min} tempUnit={tempUnit} />
             </Typography>
             <Typography color="primary" align="center" display="block" variant="caption">
                 Pressure: {pressure} hPa Humidity: {humidity} %
@@ -42,7 +44,8 @@ const CurrentWeather = ({ weatherData }) => {
 };
 
 CurrentWeather.propTypes = {
-    weatherData: PropTypes.object
+    weatherData: PropTypes.object,
+    tempUnit: PropTypes.string
 };
 
 export default CurrentWeather;
