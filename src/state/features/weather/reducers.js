@@ -15,7 +15,8 @@ const weatherReducer = (state = INITIAL_STATE, action) => {
         case types.FETCH_FORECAST_START:
             return {
                 ...state,
-                isFetching: true
+                isFetching: true,
+                errorMessage: undefined
             };
         case types.FETCH_CURRENT_WEATHER_SUCCESS:
             return {

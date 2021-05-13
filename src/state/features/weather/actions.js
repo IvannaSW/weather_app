@@ -22,7 +22,7 @@ export const fetchForecastStart = () => ({
 
 export const fetchForecastSuccess = (forecastData) => ({
     type: types.FETCH_FORECAST_SUCCESS,
-    payload: forecastData.filter((x) => moment.unix(x.dt).utc().format('HH') === '12').slice(1)
+    payload: forecastData.filter((x) => moment.unix(x.dt).utc().format('HH') === '12').slice(0, 4)
 });
 
 export const fetchForecastFailed = (error) => ({
@@ -44,7 +44,7 @@ export const requestCurrentWeather = (city) => {
         dispatch(fetchCurrentWeatherStart());
         fetchCurrentWeather(city)
             .then((result) => dispatch(fetchCurrentWeatherSuccess(result.data)))
-            .catch((error) => dispatch(fetchCurrentWeatherFailed(error)));
+            .catch((error) => dispatch(fetchCurrentWeatherFailed(error.message)));
     };
 };
 
@@ -53,7 +53,7 @@ export const requestDailyForecast = (city) => {
         dispatch(fetchForecastStart());
         fetchExtendedForecast(city)
             .then((result) => dispatch(fetchForecastSuccess(result.data.list)))
-            .catch((error) => dispatch(fetchForecastFailed(error)));
+            .catch((error) => dispatch(fetchForecastFailed(error.message)));
     };
 };
 
