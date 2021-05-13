@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import Temperature from '../Temperature/Temperature';
+import Temperature from '../../Temperature';
 import Grid from '@material-ui/core/Grid';
 import { Card, Typography } from '@material-ui/core';
 

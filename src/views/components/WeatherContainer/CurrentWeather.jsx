@@ -4,7 +4,7 @@ import moment from 'moment';
 import { Card, Typography } from '@material-ui/core';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import Temperature from '../../Temperature/Temperature';
+import Temperature from '../Temperature';
 
 /* TODO:
 - improve how UI looks;

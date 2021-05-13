@@ -1,11 +1,10 @@
-import React from 'react';
-import CurrentWeather from './CurrentWeather/CurrentWeather';
-import PropTypes from 'prop-types';
-import { Grid, CircularProgress } from '@material-ui/core';
-import { connect } from 'react-redux';
-import TemperatureUnitsSwitch from '../TemperatureSwitch/TemperatureUnitsSwitch';
-import { changeDegreeType } from '../../../state/ducks/weather/actions';
-import DailyForecast from '../DailyForecast/DailyForecast';
+import React, { useCallback } from 'react';
+import CurrentWeather from './CurrentWeather';
+import { Grid, CircularProgress, Typography } from '@material-ui/core';
+import { useSelector, useDispatch } from 'react-redux';
+import LabeledSwitch from '../../UI/LabeledSwitch';
+import { changeDegreeType } from '../../../state/features/weather/actions';
+import DailyForecast from './DailyForecast/DailyForecast';
 
 /*
 TODO:
@@ -13,9 +12,27 @@ TODO:
 - refactoring files structure for children components and css styles
 */
 
-const WeatherContainer = ({ loading, weatherData, tempUnit, changeDegreeType, forecastData }) => {
+const WeatherContainer = () => {
+    const unitsLabels = { left: 'Cel', right: 'Far' };
+
+    const loading = useSelector((state) => state.weather.isFetching);
+    const weatherData = useSelector((state) => state.weather.weather);
+    const forecastData = useSelector((state) => state.weather.forecast);
+    const tempUnit = useSelector((state) => state.weather.tempUnit);
+    const fetchError = useSelector((state) => state.weather.errorMessage);
+
+    const dispatch = useDispatch();
+    const changeDegreeTypes = useCallback(() => dispatch(changeDegreeType()), []);
+
     return (
-        <Grid container spacing={3}>
+        <Grid container spacing={1}>
+            {fetchError && (
+                <Grid item xs={12}>
+                    <Typography color="error" align="center">
+                        Oops something went wrong ({fetchError})
+                    </Typography>
+                </Grid>
+            )}
             <Grid item xs={5}>
                 {loading ? (
                     <CircularProgress />
@@ -32,34 +49,15 @@ const WeatherContainer = ({ loading, weatherData, tempUnit, changeDegreeType, fo
             </Grid>
             {weatherData ? (
                 <Grid item xs={12}>
-                    <TemperatureUnitsSwitch onToggle={changeDegreeType} />
+                    <LabeledSwitch
+                        onToggle={changeDegreeTypes}
+                        labels={unitsLabels}
+                        checked={tempUnit === 'F'}
+                    />
                 </Grid>
             ) : null}
         </Grid>
     );
 };
 
-const mapStateToProps = (state) => {
-    return {
-        loading: state.weather.isFetching,
-        weatherData: state.weather.weather,
-        tempUnit: state.weather.tempUnit,
-        forecastData: state.weather.forecast
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        changeDegreeType: () => dispatch(changeDegreeType())
-    };
-};
-
-WeatherContainer.propTypes = {
-    loading: PropTypes.bool.isRequired,
-    changeDegreeType: PropTypes.func.isRequired,
-    tempUnit: PropTypes.string,
-    weatherData: PropTypes.object,
-    forecastData: PropTypes.array
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(WeatherContainer);
+export default WeatherContainer;

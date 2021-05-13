@@ -1,5 +1,5 @@
 import React from 'react';
-import { celciusToFahrenheit } from '../../../utilities/unitsConversion';
+import { celciusToFahrenheit } from '../../utilities/unitsConversion';
 import PropTypes from 'prop-types';
 
 const Temperature = ({ value, tempUnit }) => {
